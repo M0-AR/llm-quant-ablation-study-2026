@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How a 27B Model Fits in 5.95 GB — Interactive Study</title>
+<style>
+:root{--bg:#0f172a;--card:#1e293b;--acc:#22c55e;--gold:#fbbf24;--txt:#e2e8f0;--mut:#94a3b8}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--txt);line-height:1.6}
+header{padding:56px 20px;text-align:center;background:radial-gradient(800px 300px at 50% 0%,#1d4ed855,transparent)}
+h1{font-size:clamp(28px,5vw,52px);margin:0 0 12px}.sub{color:var(--mut);max-width:820px;margin:0 auto}
+.ceo{max-width:900px;margin:24px auto;background:var(--card);border:1px solid #334155;border-radius:16px;padding:20px 24px}
+.badges{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:16px 0}
+.badges span{background:#020617;border:1px solid #334155;border-radius:999px;padding:4px 12px;font-size:13px}
+main{max-width:1000px;margin:0 auto;padding:20px}
+.card{background:var(--card);border:1px solid #334155;border-radius:16px;padding:24px;margin:20px 0}
+.card h2{margin-top:0;color:var(--gold)}
+img{max-width:100%;border-radius:12px;border:1px solid #334155}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}@media(max-width:760px){.grid{grid-template-columns:1fr}}
+table{width:100%;border-collapse:collapse;font-size:14px}th,td{border:1px solid #334155;padding:8px;text-align:left}th{background:#020617}
+.warn{background:#450a0a;border:1px solid #f87171;border-radius:12px;padding:16px;margin:20px 0}
+.tip{background:#052e16;border:1px solid var(--acc);border-radius:12px;padding:16px;margin:20px 0}
+.quiz button{display:block;width:100%;text-align:left;margin:8px 0;padding:12px;border-radius:10px;border:1px solid #334155;background:#020617;color:var(--txt);cursor:pointer;font-size:15px}
+.quiz button.correct{border-color:var(--acc);background:#052e16}.quiz button.wrong{border-color:#ef4444;background:#450a0a}
+.quiz .exp{display:none;color:var(--mut);font-size:14px}.quiz .show .exp{display:block}
+#score{font-size:20px;font-weight:700;color:var(--gold)}
+footer{color:var(--mut);text-align:center;padding:32px;font-size:13px}
+a{color:#7dd3fc}
+code{background:#020617;padding:2px 6px;border-radius:6px}
+</style>
+</head>
+<body>
+<header>
+<h1>How a 27B Model Fits in 5.95 GB</h1>
+<p class="sub">…and what "obliterated" really removes · verified with runnable code · picks for 8 / 12 / 16 / 24 GB GPUs</p>
+<div class="badges"><span>✅ 4 suites PASS</span><span>🌐 5/5 live checks</span><span>🐳 docker compose up</span><span>📜 MIT</span></div>
+</header>
+<main>
+<div class="ceo"><b>CEO summary.</b> A 27B model needs 54 GB at full precision, ~16.5 GB at 4-bit, and <b>5.95 GB at ~1.76 bits per weight</b> via ternary quantization. "Zero refusals" = <b>one refusal direction erased from 34 of 851 weight blocks</b> (behavior change 0.0135) — every count labeled author-reported. <b>Fit rule: file + cache + vision &lt; VRAM.</b> Full paper in this repo's README.</div>
+<div class="warn"><b>Safety first.</b> Run these builds only on your own machine. A model with refusals removed answers what you ask — <b>you own the request</b>. This page teaches mechanisms and math only.</div>
+
+<div class="card"><h2>🎬 Watch the story in 5 seconds</h2><img src="../assets/demo.gif" alt="Demo animation: file shrinking 54 to 5.95 GB as refusals fall"></div>
+<div class="card"><h2>🌱 Beginner path (2 minutes)</h2>
+<p><b>1.</b> A model = billions of numbers. File size = <code>numbers × bits each ÷ 8</code>.<br>
+<b>2.</b> 16 bits → 54 GB. ~4.9 bits → ~16.5 GB. ~1.76 bits (ternary: only −1/0/+1 allowed) → 5.95 GB.<br>
+<b>3.</b> Memory = file + <b>context cache</b> (grows with tokens) + vision. All three must fit your GPU.<br>
+<b>4.</b> "Obliterated" = one refusal direction deleted from a thin slice of weights; everything else kept.<br>
+<b>5.</b> Never compare 0/100 with 0/465 — different tests. Trust cards that publish misses + behavior-change.</p></div>
+
+<div class="grid">
+<div class="card"><h2>📉 Size ladder</h2><img src="../assets/quant_ladder.png" alt="Bar chart of 27B file sizes by quantization"></div>
+<div class="card"><h2>🎮 Fit per GPU</h2><img src="../assets/fit_headroom.png" alt="Headroom chart per GPU tier"></div>
+</div>
+
+<div class="card"><h2>🎮 GPU picks</h2>
+<table><tr><th>GPU</th><th>Start with</th><th>Why</th></tr>
+<tr><td>8 GB</td><td>5.95 GB ternary + 0.63 vision</td><td>only combo with real headroom (~52k tok)</td></tr>
+<tr><td>12 GB</td><td>7.66 GB ternary + draft head</td><td>most headroom (~159k tok)</td></tr>
+<tr><td>16 GB</td><td>13.0 GB (long context) or 11.8 GB (small file)</td><td>110k tok card figure</td></tr>
+<tr><td>24 GB</td><td>Q4 16.8 GB → Q5 19.5 GB</td><td>misses published; Q8 29 GB doesn't fit</td></tr></table></div>
+
+<div class="card quiz" id="quiz"><h2>🧠 Interactive quiz — scratch to pro</h2><p id="score">Score: 0 / 6</p><div id="qs"></div></div>
+
+<div class="card"><h2>🔬 Deep cuts (from the paper)</h2>
+<ul><li><b>8 GB trap:</b> 7.21 + vision leaves 0.16 GB → ~6k tokens. Short-window-only.</li>
+<li><b>Hybrid attention:</b> ~27 KB/token matches 16 caching layers, not 48 — long context ~3× cheaper.</li>
+<li><b>KL is honest:</b> 0.01–0.16 (automated) vs 0.45–1.04 (manual) measures what you broke.</li>
+<li><b>Draft-head tax ~25%:</b> +0.45 GB, +24% cache/token, −30k tokens for +40%–3× speed (author-claimed).</li>
+<li><b>MoE truth:</b> 35B/3B-active still loads all 35B — sparsity saves compute, not VRAM.</li></ul>
+<p>Reproduce: <code>docker compose up</code> · <code>python3 experiments/01_quant_math_verify.py</code> · <code>02_kv_cache_fit.py</code> · <code>03_refusal_theory_verify.py</code> · <code>04_live_hf_verify.py</code></p></div>
+</main>
+<footer>Study repo · all tables recomputed by scripts · counts are author-reported until one shared test reruns them · MIT</footer>
+<script>
+const Q=[
+{q:"A 27B model at 16 bits needs…",o:["~54 GB (27B×16/8)","~27 GB","~16 GB","~6 GB"],a:0,e:"27,000,000,000 × 16 ÷ 8 = 54 GB. The master formula."},
+{q:"5.95 GB implies how many bits per weight?",o:["~1.76 (ternary + overhead)","Exactly 1.0","4.89","8.5"],a:0,e:"5.95×8/27 ≈ 1.76. Ideal ternary is log2(3)≈1.585; scales + metadata explain the rest."},
+{q:"What must fit your VRAM?",o:["File + KV cache + vision","File only","Cache only","Nothing — it streams"],a:0,e:"Weights are half the story. Context cache grows per token."},
+{q:"What did 'obliteration' remove?",o:["One refusal direction from a thin weight slice","All safety training data","Half the layers","The tokenizer"],a:0,e:"Mean-difference direction r̂, ablated from o_proj/down_proj — 34/851 blocks in the studied card."},
+{q:"Can you compare 0/100 with 0/465?",o:["No — different private tests","Yes — zero is zero","Yes — bigger denominator wins","Only on Tuesdays"],a:0,e:"Different sets, no shared harness. That's why this repo ships a shared-test stub."},
+{q:"7.21 GB + 0.63 GB vision on 8 GB gives…",o:["~6k tokens — short window only","~200k tokens","Infinite context","A faster GPU"],a:0,e:"0.16 GB headroom ÷ 27 KB/token. The 5.95 GB file is the honest 8 GB pick."}];
+let s=0, done=0; const box=document.getElementById('qs');
+Q.forEach((it,i)=>{const d=document.createElement('div');d.innerHTML=`<p><b>${i+1}. ${it.q}</b></p>`;it.o.forEach((t,j)=>{const b=document.createElement('button');b.textContent=t;b.onclick=()=>{if(d.className.includes('show'))return;d.className='show';done++;if(j===it.a){b.classList.add('correct');s++;}else{b.classList.add('wrong');d.querySelectorAll('button')[it.a].classList.add('correct');}const p=document.createElement('p');p.className='exp show';p.textContent='Why: '+it.e;document.getElementById('score').textContent=`Score: ${s} / 6`;d.appendChild(p);if(done===6){const f=document.createElement('p');f.innerHTML=s===6?'🏆 <b>Pro. You know more than most interview candidates.</b>':s>=4?'💪 <b>Strong — re-read the two you missed and retake.</b>':'🌱 <b>Good start — scroll up to the beginner path and retry.</b>';d.appendChild(f);}};d.appendChild(b);});box.appendChild(d);});
+</script>
+</body>
+</html>

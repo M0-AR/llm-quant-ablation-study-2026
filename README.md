@@ -4,7 +4,7 @@
 
 ![status](https://img.shields.io/badge/status-4_suites_PASS-brightgreen) ![live-checks](https://img.shields.io/badge/live_checks-5_of_5-blue) ![repro](https://img.shields.io/badge/reproduce-docker_compose_up-orange) ![license](https://img.shields.io/badge/license-MIT-lightgrey)
 
-**🌐 Prefer reading on the web? Open `preview.html` in this repo (also Pages-ready) — same study as a beautiful page with an interactive quiz.**
+**🌐 Prefer reading on the web? Start here: [interactive study](https://m0-ar.github.io/llm-quant-ablation-study-2026/preview.html) — same study as a beautiful page with an interactive quiz. Mirrors: [home](https://m0-ar.github.io/llm-quant-ablation-study-2026/) · [preview](https://m0-ar.github.io/llm-quant-ablation-study-2026/preview.html) · [docs copy](https://m0-ar.github.io/llm-quant-ablation-study-2026/docs/preview.html). All three resolve (see [GitHub Pages](#github-pages--web-version)).**
 
 ---
 
@@ -275,13 +275,24 @@ Refusal-direction paper (arXiv:2406.11717, NeurIPS 2024) and two independent wri
 
 ## GitHub Pages — web version
 
-`preview.html` is a self-contained static page (no build step, no dependencies). To publish it:
+The interactive page is a self-contained static file (no build step, no dependencies). It ships in **both** places so it resolves under either Pages source setting:
 
-1. Push this repo to GitHub.
-2. Go to **Settings → Pages → Deploy from branch** → select your branch (e.g. `main`) and folder `/ (root)`.
-3. Open `https://<you>.github.io/<repo>/preview.html`.
+| Click | URL | Works when source is… |
+|---|---|---|
+| [Home `/`](https://m0-ar.github.io/llm-quant-ablation-study-2026/) | `https://m0-ar.github.io/llm-quant-ablation-study-2026/` | `/` or `/docs` (redirect pages in both) |
+| [Study `/preview.html`](https://m0-ar.github.io/llm-quant-ablation-study-2026/preview.html) | `https://m0-ar.github.io/llm-quant-ablation-study-2026/preview.html` | `/` (root) |
+| [Study `/docs/preview.html`](https://m0-ar.github.io/llm-quant-ablation-study-2026/docs/preview.html) | `https://m0-ar.github.io/llm-quant-ablation-study-2026/docs/preview.html` | `/` (root) — and as `/preview.html` when source is `/docs` |
 
-Local check: `python3 -m http.server` in the repo root, then open `/preview.html`. The page embeds the same charts (`assets/`) and quiz; screenshot below is a verified render (quiz clicks tested: correct answer scores 1/6 with explanation shown).
+To publish / verify:
+
+1. Push this repo to GitHub (done — `main`).
+2. Go to **Settings → Pages → Deploy from branch** → branch `main`, folder **`/docs`** (recommended; `/ (root)` also works thanks to the mirrors).
+3. Wait 1–2 min for the "pages build and deployment" Action, then click the three links above — all should return 200.
+
+> [!NOTE]
+> Why mirrors? Pages serves URLs mirroring the repo path *under the chosen source*. Root `preview.html` + `docs/preview.html` are byte-identical except the asset prefix (`assets/` vs `../assets/`); root + docs `index.html` redirect home. `.nojekyll` in both folders keeps the files served exactly as-is.
+
+Local check: `python3 -m http.server` in the repo root, then open `/preview.html` (or `/docs/preview.html`). The page embeds the same charts (`assets/`) and quiz; screenshot below is a verified render (quiz clicks tested: correct answer scores 1/6 with explanation shown).
 
 ![Verified preview.html render](assets/preview_top.png)
 
@@ -291,7 +302,7 @@ PRs that add *verified* numbers welcome: shared-set reruns (`results/shared.json
 
 ## License
 
-MIT — see `LICENSE` (add one before publishing publicly). Study only; model weights belong to their publishers and carry their own licenses/terms.
+MIT — see `LICENSE`. Study only; model weights belong to their publishers and carry their own licenses/terms.
 
 ## Acknowledgments
 
