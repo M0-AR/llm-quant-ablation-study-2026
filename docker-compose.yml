@@ -1,0 +1,13 @@
+services:
+  study:
+    build: .
+    container_name: llm-quant-ablation-study
+    volumes:
+      - ./experiments:/work/experiments
+      - ./benchmarks:/work/benchmarks
+      - ./results:/work/results
+      - ./paper:/work/paper
+      - ./docs:/work/docs
+    working_dir: /work
+    command: bash -c "python3 experiments/01_quant_math_verify.py && python3 experiments/02_kv_cache_fit.py && python3 experiments/03_refusal_theory_verify.py && python3 experiments/04_live_hf_verify.py"
+    mem_limit: 4g

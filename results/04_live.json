@@ -1,0 +1,29 @@
+{
+  "checks": [
+    {
+      "name": "llama.cpp quantize README reachable",
+      "pass": true,
+      "detail": "HTTP 200, contains Q4_K_M table"
+    },
+    {
+      "name": "Arditi arXiv:2406.11717 reachable",
+      "pass": true,
+      "detail": "HTTP 200, Arditi title found"
+    },
+    {
+      "name": "Heretic GitHub reachable",
+      "pass": true,
+      "detail": "Heretic stars=35395"
+    },
+    {
+      "name": "Qwen3-30B-A3B HF entry reachable",
+      "pass": true,
+      "detail": "HTTP 200, Qwen3-30B-A3B siblings=26 (arch cross-check in paper \u00a72)"
+    },
+    {
+      "name": "Sample GGUF file listing (size-check workflow)",
+      "pass": true,
+      "detail": "sample GGUF files: ['.gitattributes', 'LICENSE', 'Qwen3-0.6B-Q8_0.gguf', 'README.md']"
+    }
+  ]
+}

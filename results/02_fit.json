@@ -1,0 +1,73 @@
+{
+  "bucoid_kb_per_tok": 27.27,
+  "mtp_kb_per_tok": 33.75,
+  "mtp_cost_tokens": 30000,
+  "tiers": [
+    {
+      "tier": "8GB: Bonsai 5.95 + vision-q8 0.629",
+      "headroom_gb": 1.42,
+      "approx_ctx": 52051,
+      "fits": true
+    },
+    {
+      "tier": "8GB: Bonsai 7.21 + vision-q8 0.629",
+      "headroom_gb": 0.16,
+      "approx_ctx": 5897,
+      "fits": false
+    },
+    {
+      "tier": "12GB: Bonsai+MTP 7.66",
+      "headroom_gb": 4.34,
+      "approx_ctx": 158974,
+      "fits": true
+    },
+    {
+      "tier": "12GB: IQ2_XS 8.45",
+      "headroom_gb": 3.55,
+      "approx_ctx": 130036,
+      "fits": true
+    },
+    {
+      "tier": "12GB: GSQRCO IQ3_XXS 10.12",
+      "headroom_gb": 1.88,
+      "approx_ctx": 68864,
+      "fits": true
+    },
+    {
+      "tier": "16GB: Bucoid IQ4_XS 13.0",
+      "headroom_gb": 3.0,
+      "approx_ctx": 109890,
+      "fits": true
+    },
+    {
+      "tier": "16GB: Bucoid+MTP 13.3",
+      "headroom_gb": 2.7,
+      "approx_ctx": 98901,
+      "fits": true
+    },
+    {
+      "tier": "24GB: Kleti Q4_K_M 16.8",
+      "headroom_gb": 7.2,
+      "approx_ctx": 263736,
+      "fits": true
+    },
+    {
+      "tier": "24GB: Q5_K_M 19.5",
+      "headroom_gb": 4.5,
+      "approx_ctx": 164835,
+      "fits": true
+    },
+    {
+      "tier": "24GB: Q6_K 22.4 (tight)",
+      "headroom_gb": 1.6,
+      "approx_ctx": 58608,
+      "fits": true
+    },
+    {
+      "tier": "24GB: Q8 29.0 (DOES NOT FIT)",
+      "headroom_gb": -5.0,
+      "approx_ctx": 0,
+      "fits": false
+    }
+  ]
+}

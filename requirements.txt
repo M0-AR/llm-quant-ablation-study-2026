@@ -1,0 +1,8 @@
+numpy
+pandas
+matplotlib
+requests
+tqdm
+scipy
+scikit-learn
+huggingface_hub>=0.23
